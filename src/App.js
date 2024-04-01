@@ -22,7 +22,7 @@ import WritersCall from './pages/WritersCall';
 function App() {
   //useNavigate() : 함수이므로 변수에 받아서 선언을 일반적으로 함
   let navigate = useNavigate();
-  let [pic] = useState(data)
+  let [pic, setPic] = useState(data)
   //console.log(pic)
 
   let [showButton, setShowButton] = useState(true)
@@ -34,14 +34,26 @@ function App() {
 
   //axios로 데이터 요청하기
   const fetchData = ()=>{
-    axios.get("https://raw.githubusercontent.com/HeoSsaM/shop2/main/data2.json")
+    axios.get("https://raw.githubusercontent.com/minsikH/shop2/main/data2.json")
     .then ((result)=>{
-      console.log(result)
+      //console.log(result)
+      let copy = [...pic, ...result.data] //pic이 가지고 있는 data.js와 서버에서 받은 data2.json의 데이터를 각각 복사해서 copy라는 변수에 저장
+      //console.log('copy : ', copy)
+      setPic(copy)
+
+
+      if (result.data.length == 0) {
+        setShowButton(false)
+      }
+    })
+    .catch (()=> {
+      console.log('실패')
     })
   }
   //상품더보기 버튼을 클릭하면 실행되는 함수
   const btnDataClick = ()=> {
     fetchData()
+    setShowButton(false)
   }
 
   return (
@@ -82,8 +94,8 @@ function App() {
       <Routes>
         <Route path='/' element={<Homepage pic={pic}/>}></Route>
         <Route path='/sub1/:id' element={<Sub1 pic={pic}/>}></Route>
-        <Route path='/sub2' element={<Sub2 />}>
-          <Route path='sub2-1' element={<AuthorInfo />} ></Route>
+        <Route path='/sub2' element={<Sub2 pic={pic} />}>
+          <Route path='sub2-1' element={<AuthorInfo pic={pic}/>} ></Route>
           <Route path='sub2-2' element={<WritersCall />} ></Route>
         </Route>
         <Route path='/sub3' element={<Sub3 />}></Route>
