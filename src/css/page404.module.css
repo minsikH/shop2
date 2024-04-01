@@ -1,0 +1,16 @@
+.nopage {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    height: calc(100vh - 56px);
+    background: #efefef;
+}
+.nopage p strong {
+    font-size: 60px;
+    font-weight: 700;
+    color: rgba(0, 0, 0, 0.6);
+}
+.nopage p {
+    font-size: 20px;
+}
